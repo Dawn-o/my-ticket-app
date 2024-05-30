@@ -5,63 +5,72 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Forms extends StatefulWidget {
-  const Forms({super.key});
-
+  Forms({super.key, required this.id});
+  final id;
   @override
   State<Forms> createState() => _FormsState();
 }
 
 class _FormsState extends State<Forms> {
   final DBHelper dbHelper = DBHelper();
+  List<Map<String, dynamic>> _tickets = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _formStatus(widget.id);
+    _refreshTicket();
+  }
 
   final _formkey = GlobalKey<FormState>();
 
-  final TextEditingController _eventNameController = TextEditingController();
+  TextEditingController _eventNameController = TextEditingController();
 
-  final TextEditingController _locationController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
 
-  final TextEditingController _dateController = TextEditingController();
+  TextEditingController _dateController = TextEditingController();
 
-  final TextEditingController _openGateController = TextEditingController();
+  TextEditingController _openGateController = TextEditingController();
 
-  final TextEditingController _addressController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
 
-  final TextEditingController _ticketName1Controller = TextEditingController();
+  TextEditingController _ticketName1Controller = TextEditingController();
 
-  final TextEditingController _prize1Controller = TextEditingController();
+  TextEditingController _prize1Controller = TextEditingController();
 
-  final TextEditingController _prize2Controller = TextEditingController();
+  TextEditingController _prize2Controller = TextEditingController();
 
-  final TextEditingController _prize3Controller = TextEditingController();
+  TextEditingController _prize3Controller = TextEditingController();
 
-  final TextEditingController _available1Controller = TextEditingController();
+  TextEditingController _available1Controller = TextEditingController();
 
-  final TextEditingController _price1Controller = TextEditingController();
+  TextEditingController _price1Controller = TextEditingController();
 
-  final TextEditingController _ticketName2Controller = TextEditingController();
+  TextEditingController _ticketName2Controller = TextEditingController();
 
-  final TextEditingController _prize21Controller = TextEditingController();
+  TextEditingController _prize21Controller = TextEditingController();
 
-  final TextEditingController _prize22Controller = TextEditingController();
+  TextEditingController _prize22Controller = TextEditingController();
 
-  final TextEditingController _prize23Controller = TextEditingController();
+  TextEditingController _prize23Controller = TextEditingController();
 
-  final TextEditingController _available2Controller = TextEditingController();
+  TextEditingController _available2Controller = TextEditingController();
 
-  final TextEditingController _price2Controller = TextEditingController();
+  TextEditingController _price2Controller = TextEditingController();
 
-  final TextEditingController _ticketName3Controller = TextEditingController();
+  TextEditingController _ticketName3Controller = TextEditingController();
 
-  final TextEditingController _prize31Controller = TextEditingController();
+  TextEditingController _prize31Controller = TextEditingController();
 
-  final TextEditingController _prize32Controller = TextEditingController();
+  TextEditingController _prize32Controller = TextEditingController();
 
-  final TextEditingController _prize33Controller = TextEditingController();
+  TextEditingController _prize33Controller = TextEditingController();
 
-  final TextEditingController _available3Controller = TextEditingController();
+  TextEditingController _available3Controller = TextEditingController();
 
-  final TextEditingController _price3Controller = TextEditingController();
-  final TextEditingController _photoController = TextEditingController();
+  TextEditingController _price3Controller = TextEditingController();
+
+  TextEditingController _photoController = TextEditingController();
 
   File? _selectedImage;
 
@@ -105,6 +114,73 @@ class _FormsState extends State<Forms> {
         _selectedImage = File(pickedFile.path);
         _photoController.text = pickedFile.path;
       });
+    }
+  }
+
+  void _refreshTicket() async {
+    final data = await dbHelper.queryAllTickets();
+    setState(() {
+      _tickets = data;
+    });
+  }
+
+  void _formStatus(int? id) {
+    if (id != null) {
+      final existingData =
+          _tickets.firstWhere((element) => element['id'] == id);
+      _eventNameController.text = existingData['event_name'];
+      _locationController.text = existingData['location'];
+      _dateController.text = existingData['date'];
+      _openGateController.text = existingData['open_gate'];
+      _addressController.text = existingData['address'];
+      _ticketName1Controller.text = existingData['ticket_name_1'];
+      _ticketName2Controller.text = existingData['ticket_name_2'];
+      _ticketName3Controller.text = existingData['ticket_name_3'];
+      _available1Controller.text = existingData['available_1'];
+      _available2Controller.text = existingData['available_2'];
+      _available3Controller.text = existingData['available_3'];
+      _price1Controller.text = existingData['price_1'];
+      _price2Controller.text = existingData['price_2'];
+      _price3Controller.text = existingData['price_3'];
+      _prize1Controller.text = existingData['prize_1'];
+      _prize2Controller.text = existingData['prize_2'];
+      _prize3Controller.text = existingData['prize_3'];
+      _prize21Controller.text = existingData['prize_21'];
+      _prize22Controller.text = existingData['prize_22'];
+      _prize23Controller.text = existingData['prize_23'];
+      _prize31Controller.text = existingData['prize_31'];
+      _prize32Controller.text = existingData['prize_32'];
+      _prize33Controller.text = existingData['prize_33'];
+      _selectedImage = existingData['photo'] != null
+          ? File(
+              existingData['photo'],
+            )
+          : null;
+    } else {
+      _eventNameController.clear();
+      _locationController.clear();
+      _dateController.clear();
+      _openGateController.clear();
+      _addressController.clear();
+      _ticketName1Controller.clear();
+      _ticketName2Controller.clear();
+      _ticketName3Controller.clear();
+      _available1Controller.clear();
+      _available2Controller.clear();
+      _available3Controller.clear();
+      _price1Controller.clear();
+      _price2Controller.clear();
+      _price3Controller.clear();
+      _prize1Controller.clear();
+      _prize2Controller.clear();
+      _prize3Controller.clear();
+      _prize21Controller.clear();
+      _prize22Controller.clear();
+      _prize23Controller.clear();
+      _prize31Controller.clear();
+      _prize32Controller.clear();
+      _prize33Controller.clear();
+      _selectedImage = null;
     }
   }
 

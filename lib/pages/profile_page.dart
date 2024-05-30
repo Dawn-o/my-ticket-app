@@ -177,7 +177,7 @@ class ProfilePage extends StatelessWidget {
         ),
         ElevatedButton(
           onPressed: () => Navigator.of(context)
-              .push(MaterialPageRoute(builder: (_) => const Forms())),
+              .push(MaterialPageRoute(builder: (_) => Forms(id: null,))),
           style: ElevatedButton.styleFrom(
               minimumSize: Size.zero,
               padding: EdgeInsets.zero,

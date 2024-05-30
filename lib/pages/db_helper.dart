@@ -69,6 +69,11 @@ class DBHelper {
     return await db.query('tickets');
   }
 
+  Future<List<Map<String, dynamic>>> queryEvents(String status) async {
+    Database db = await database;
+    return await db.query('tickets', where: 'status = ?', whereArgs: [status]);
+  }
+
   Future<int> updateTicket(Map<String, dynamic> row) async {
     Database db = await database;
     int id = row['id'];

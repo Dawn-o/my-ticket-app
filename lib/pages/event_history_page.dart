@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:bjbfest/pages/active_event_page.dart';
+import 'package:bjbfest/pages/status_event_page.dart';
 import 'package:bjbfest/pages/db_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -144,7 +144,9 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
                               ),
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => const ActiveEventPage()));
+                                    builder: (_) => const StatusEventPage(
+                                          status: "on",
+                                        )));
                               },
                               child: const Icon(
                                 color: Colors.black,
@@ -237,7 +239,15 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
                                 surfaceTintColor: Colors.transparent,
                                 elevation: 0,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => const StatusEventPage(
+                                      status: "off",
+                                    ),
+                                  ),
+                                );
+                              },
                               child: const Icon(
                                 color: Colors.black,
                                 Icons.arrow_forward_ios_rounded,

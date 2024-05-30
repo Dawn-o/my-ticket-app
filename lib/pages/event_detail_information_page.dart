@@ -1,12 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:bjbfest/forms.dart';
 import 'package:bjbfest/pages/db_helper.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailInformationPage extends StatelessWidget {
   EventDetailInformationPage(
       {super.key, required this.id, required this.available});
-  final id;
+  int id;
   final available;
 
   @override
@@ -50,8 +51,8 @@ class EventDetailInformationPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Event Tickets",
+                     Text(
+                      "Event Tickets ${id}",
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
@@ -148,11 +149,15 @@ class EventDetailInformationPage extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
+                        padding: EdgeInsets.zero, 
                         surfaceTintColor: Colors.transparent,
                         elevation: 0,
                       ),
-                      onPressed: () {},
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => Forms(
+                                    id: id,
+                                  ))),
                       child: Container(
                         height: 55,
                         decoration: BoxDecoration(
