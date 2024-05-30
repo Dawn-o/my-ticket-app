@@ -32,7 +32,8 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
       'id': id,
       'status': "Confirmed",
     });
-    
+    Navigator.of(context).pop(true);
+
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Orders Confirmed')));
   }
@@ -42,7 +43,8 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
       'id': id,
       'status': "Declined",
     });
-    ;
+    Navigator.of(context).pop(true);
+
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Orders Declined')));
   }
@@ -56,6 +58,286 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    Dialog declineDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 250,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Decline Booking",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure want to decline?",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure the Booking Information is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _declineOrder(widget.id);
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Decline",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    Dialog confirmDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 250,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Confirm Booking",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure want to confirm?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure the Booking Information is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _confirmOrder(widget.id);
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Confirm",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1D4AA7),
@@ -201,8 +483,9 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
                                   elevation: 0,
                                 ),
                                 onPressed: () {
-                                  _declineOrder(widget.id);
-                                  Navigator.pop(context, true);
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => declineDialog);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
@@ -232,8 +515,9 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
                                   elevation: 0,
                                 ),
                                 onPressed: () {
-                                  _confirmOrder(widget.id);
-                                  Navigator.pop(context, true);
+                                  showDialog(
+                                      context: context,
+                                      builder: (_) => confirmDialog);
                                 },
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(

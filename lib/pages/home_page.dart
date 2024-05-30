@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _refreshTicket() async {
-    final data = await dbHelper.queryAllTickets();
+    final data = await dbHelper.queryEvents("on");
     setState(() {
       _tickets = data;
     });
@@ -155,7 +155,7 @@ class _upcomingSectionState extends State<upcomingSection> {
   }
 
   void _refreshTicket() async {
-    final data = await dbHelper.queryAllTickets();
+    final data = await dbHelper.queryEvents("on");
     setState(() {
       _tickets = data;
     });

@@ -12,7 +12,6 @@ class StatusEventPage extends StatefulWidget {
 class _StatusEventPageState extends State<StatusEventPage> {
   final DBHelper dbHelper = DBHelper();
   List<Map<String, dynamic>> _tickets = [];
-  var _activeEvent;
 
   @override
   void initState() {
@@ -21,10 +20,8 @@ class _StatusEventPageState extends State<StatusEventPage> {
   }
 
   void _refreshTicket() async {
-    final active = await dbHelper.activeEvent(widget.status);
     final data = await dbHelper.queryEvents(widget.status.toString());
     setState(() {
-      _activeEvent = active;
       _tickets = data;
     });
   }
@@ -54,8 +51,7 @@ class _StatusEventPageState extends State<StatusEventPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _activeEvent.toString() != "0"
-                      ? Column(
+                Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                               Text(
@@ -146,8 +142,7 @@ class _StatusEventPageState extends State<StatusEventPage> {
                                   ],
                                 );
                               })
-                            ])
-                      : Text("NO DATA"),
+                            ]),
                 ],
               )),
         ],

@@ -102,6 +102,8 @@ class _FormsState extends State<Forms> {
       'photo': _photoController.text,
       'status': "on",
     });
+    Navigator.of(context).pop();
+
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Tickets Added')));
   }
@@ -185,6 +187,146 @@ class _FormsState extends State<Forms> {
   }
 
   Widget build(BuildContext context) {
+    Dialog confirmDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 255,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Add Event Data",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure to add Event Data?",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure the Event Data is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _addTicket();
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Add",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFF1D4AA7),
@@ -223,7 +365,9 @@ class _FormsState extends State<Forms> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            _addTicket();
+                            showDialog(
+                                context: context,
+                                builder: (_) => confirmDialog);
                           }
                         },
                         style: ElevatedButton.styleFrom(
