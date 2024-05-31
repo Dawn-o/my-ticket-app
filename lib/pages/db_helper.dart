@@ -16,13 +16,13 @@ class DBHelper {
   }
 
   Future<Database> _initDB() async {
-    String path = join(await getDatabasesPath(), 'bjbfest.db');
+    String path = join(await getDatabasesPath(), 'bjbfest2.db');
     return await openDatabase(
       path,
       version: 1,
       onCreate: (db, version) async {
         await db.execute(
-          "CREATE TABLE orders(id INTEGER PRIMARY KEY AUTOINCREMENT, event_name TEXT, ticket_name TEXT, price INTEGER, quantity INTEGER, fullname TEXT, email TEXT, phone_number TEXT, status TEXT)",
+          "CREATE TABLE orders(id INTEGER PRIMARY KEY AUTOINCREMENT, event_name TEXT, ticket_name TEXT, price INTEGER, quantity INTEGER, fullname TEXT, email TEXT, phone_number TEXT, total TEXT, status TEXT)",
         );
         await db.execute(
           "CREATE TABLE tickets(id INTEGER PRIMARY KEY AUTOINCREMENT, photo TEXT, event_name TEXT, location TEXT, date TEXT, open_gate TEXT, address TEXT, ticket_name_1 TEXT, prize_1 TEXT, prize_2 TEXT, prize_3 TEXT, available_1 INTEGER, price_1 INTEGER, ticket_name_2 TEXT, prize_21 TEXT, prize_22 TEXT, prize_23 TEXT, available_2 INTEGER, price_2 INTEGER, ticket_name_3 TEXT, prize_31 TEXT, prize_32 TEXT, prize_33 TEXT, available_3 INTEGER, price_3 INTEGER, status TEXT)",

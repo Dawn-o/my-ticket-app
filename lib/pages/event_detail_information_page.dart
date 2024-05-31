@@ -2,6 +2,7 @@
 
 import 'package:bjbfest/forms.dart';
 import 'package:bjbfest/pages/db_helper.dart';
+import 'package:bjbfest/pages/event_history_page.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailInformationPage extends StatelessWidget {
@@ -19,10 +20,151 @@ class EventDetailInformationPage extends StatelessWidget {
         'id': id,
         'status': "off",
       });
-
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => EventHistoryPage()));
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Event Archived')));
     }
+
+    Dialog confirmDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 250,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Archive Event",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure want to archive?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure your choice is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _archiveEvent(id);
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Archive!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -46,13 +188,12 @@ class EventDetailInformationPage extends StatelessWidget {
             padding: const EdgeInsets.all(28),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     Text(
-                      "Event Tickets ${id}",
+                    Text(
+                      "Event Tickets",
                       style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w500,
@@ -149,7 +290,7 @@ class EventDetailInformationPage extends StatelessWidget {
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size.zero,
-                        padding: EdgeInsets.zero, 
+                        padding: EdgeInsets.zero,
                         surfaceTintColor: Colors.transparent,
                         elevation: 0,
                       ),
@@ -207,7 +348,8 @@ class EventDetailInformationPage extends StatelessWidget {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        _archiveEvent(id);
+                        showDialog(
+                            context: context, builder: (_) => confirmDialog);
                       },
                       child: Container(
                         height: 55,
@@ -233,7 +375,7 @@ class EventDetailInformationPage extends StatelessWidget {
                                       width: 18,
                                     ),
                                     Text(
-                                      "Archives Event",
+                                      "Archive Event",
                                       style: TextStyle(
                                         color: Color(0xff525252),
                                         fontSize: 19,

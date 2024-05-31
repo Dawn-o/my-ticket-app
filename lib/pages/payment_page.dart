@@ -1,6 +1,6 @@
 // ignore_for_file: must_be_immutable, unused_element
 
-import 'package:bjbfest/pages/db_helper.dart';
+import 'package:bjbfest/pages/payment_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:bjbfest/components/footer.dart';
@@ -22,36 +22,11 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  final DBHelper dbHelper = DBHelper();
   final _formkey = GlobalKey<FormState>();
 
   final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _refreshOrders();
-  }
-
-  void _refreshOrders() async {
-    setState(() {});
-  }
-
-  Future<void> _addOrder() async {
-    await dbHelper.insertOrder({
-      'event_name': widget.event_name,
-      'ticket_name': widget.ticket_name,
-      'price': widget.price,
-      'quantity': _values,
-      'fullname': _fullNameController.text,
-      'email': _emailController.text,
-      'phone_number': _phoneController.text,
-      'status': "Waiting",
-    });
-    _refreshOrders();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +74,6 @@ class _PaymentPageState extends State<PaymentPage> {
   int _values = 1;
 
   Form _formSection(BuildContext context) {
-    
     return Form(
       key: _formkey,
       child: Column(
@@ -382,7 +356,16 @@ class _PaymentPageState extends State<PaymentPage> {
               ElevatedButton(
                 onPressed: () {
                   if (_formkey.currentState!.validate()) {
-                   _addOrder();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => PaymentDetailPage(
+                              event_name: widget.event_name,
+                              ticket_name: widget.ticket_name,
+                              price: widget.price,
+                              values: _values,
+                              fullname: _fullNameController.text,
+                              email: _emailController.text,
+                              phone: _phoneController.text,
+                            )));
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -392,7 +375,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
                 child: Container(
                   width: double.infinity,
-                  padding: const EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                       color: const Color(0xFFFFDD2D),
                       borderRadius: BorderRadius.circular(4)),

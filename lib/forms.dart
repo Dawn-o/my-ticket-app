@@ -18,7 +18,6 @@ class _FormsState extends State<Forms> {
   @override
   void initState() {
     super.initState();
-    _formStatus(widget.id);
     _refreshTicket();
   }
 
@@ -108,6 +107,41 @@ class _FormsState extends State<Forms> {
         .showSnackBar(const SnackBar(content: Text('Tickets Added')));
   }
 
+  Future<void> _updateTicket(int id) async {
+    await dbHelper.updateTicket({
+      'id': id,
+      'event_name': _eventNameController.text,
+      'location': _locationController.text,
+      'date': _dateController.text,
+      'open_gate': _openGateController.text,
+      'address': _addressController.text,
+      'ticket_name_1': _ticketName1Controller.text,
+      'ticket_name_2': _ticketName2Controller.text,
+      'ticket_name_3': _ticketName3Controller.text,
+      'available_1': _available1Controller.text,
+      'available_2': _available2Controller.text,
+      'available_3': _available3Controller.text,
+      'price_1': _price1Controller.text,
+      'price_2': _price2Controller.text,
+      'price_3': _price3Controller.text,
+      'prize_1': _prize1Controller.text,
+      'prize_2': _prize2Controller.text,
+      'prize_3': _prize3Controller.text,
+      'prize_21': _prize21Controller.text,
+      'prize_22': _prize22Controller.text,
+      'prize_23': _prize23Controller.text,
+      'prize_31': _prize31Controller.text,
+      'prize_32': _prize32Controller.text,
+      'prize_33': _prize33Controller.text,
+      'photo': _photoController.text,
+      'status': "on",
+    });
+    Navigator.of(context).pop();
+
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Tickets Edited')));
+  }
+
   Future<void> _pickImage() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -124,12 +158,13 @@ class _FormsState extends State<Forms> {
     setState(() {
       _tickets = data;
     });
+    _formStatus(widget.id);
   }
 
-  void _formStatus(int? id) {
+  void _formStatus(int? id) async {
     if (id != null) {
       final existingData =
-          _tickets.firstWhere((element) => element['id'] == id);
+          await _tickets.firstWhere((element) => element['id'] == id);
       _eventNameController.text = existingData['event_name'];
       _locationController.text = existingData['location'];
       _dateController.text = existingData['date'];
@@ -138,12 +173,12 @@ class _FormsState extends State<Forms> {
       _ticketName1Controller.text = existingData['ticket_name_1'];
       _ticketName2Controller.text = existingData['ticket_name_2'];
       _ticketName3Controller.text = existingData['ticket_name_3'];
-      _available1Controller.text = existingData['available_1'];
-      _available2Controller.text = existingData['available_2'];
-      _available3Controller.text = existingData['available_3'];
-      _price1Controller.text = existingData['price_1'];
-      _price2Controller.text = existingData['price_2'];
-      _price3Controller.text = existingData['price_3'];
+      _available1Controller.text = existingData['available_1'].toString();
+      _available2Controller.text = existingData['available_2'].toString();
+      _available3Controller.text = existingData['available_3'].toString();
+      _price1Controller.text = existingData['price_1'].toString();
+      _price2Controller.text = existingData['price_2'].toString();
+      _price3Controller.text = existingData['price_3'].toString();
       _prize1Controller.text = existingData['prize_1'];
       _prize2Controller.text = existingData['prize_2'];
       _prize3Controller.text = existingData['prize_3'];
@@ -153,6 +188,7 @@ class _FormsState extends State<Forms> {
       _prize31Controller.text = existingData['prize_31'];
       _prize32Controller.text = existingData['prize_32'];
       _prize33Controller.text = existingData['prize_33'];
+      _photoController.text = existingData['photo'];
       _selectedImage = existingData['photo'] != null
           ? File(
               existingData['photo'],
@@ -182,12 +218,13 @@ class _FormsState extends State<Forms> {
       _prize31Controller.clear();
       _prize32Controller.clear();
       _prize33Controller.clear();
+      _photoController.clear();
       _selectedImage = null;
     }
   }
 
   Widget build(BuildContext context) {
-    Dialog confirmDialog = Dialog(
+    Dialog addDialog = Dialog(
       alignment: Alignment.center,
       child: Container(
         height: 255,
@@ -288,7 +325,7 @@ class _FormsState extends State<Forms> {
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Expanded(
@@ -309,6 +346,145 @@ class _FormsState extends State<Forms> {
                             ),
                             child: const Text(
                               "Yes, Add",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    Dialog editDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 255,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Edit Event Data",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure to edit Event Data?",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure the Event Data is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _updateTicket(widget.id);
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Edit",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 20,
@@ -365,9 +541,13 @@ class _FormsState extends State<Forms> {
                       ElevatedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            showDialog(
-                                context: context,
-                                builder: (_) => confirmDialog);
+                            if (widget.id == null) {
+                              showDialog(
+                                  context: context, builder: (_) => addDialog);
+                            } else {
+                              showDialog(
+                                  context: context, builder: (_) => editDialog);
+                            }
                           }
                         },
                         style: ElevatedButton.styleFrom(

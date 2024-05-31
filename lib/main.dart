@@ -1,7 +1,6 @@
 import 'package:bjbfest/pages/starter_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bjbfest/pages/detail_ticket_page.dart';
-import 'package:bjbfest/pages/payment_detail_page.dart';
 import 'main_layout.dart';
 
 void main() async {
@@ -31,7 +30,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/main' : (context) => const MainLayout(),
         'detail_ticket': (context) => const DetailTicketPage(),
-        'payment_detail': (context) => const PaymentDetailPage(),
       },
     );
   }
