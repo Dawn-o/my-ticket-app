@@ -385,7 +385,7 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
                           child: Column(
                             children: [
                               Text(
-                                "Are you sure want to confirm?",
+                                "Are you sure want to delete?",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500,
@@ -460,7 +460,7 @@ class _ConfirmationDetailPageState extends State<ConfirmationDetailPage> {
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: const Text(
-                              "Yes, Confirm",
+                              "Yes, Delete",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

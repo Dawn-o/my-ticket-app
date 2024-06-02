@@ -51,98 +51,95 @@ class _StatusEventPageState extends State<StatusEventPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                              Text(
-                                widget.status == "on"
-                                    ? "Active Event"
-                                    : "Expire Event",
-                                style: const TextStyle(
-                                  fontSize: 21,
-                                  fontWeight: FontWeight.w500,
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.status == "on"
+                              ? "Active Event"
+                              : "Expire Event",
+                          style: const TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        ..._tickets.map((ticket) {
+                          int available1 = ticket['available_1'];
+                          int available2 = ticket['available_2'] == ""
+                              ? 0
+                              : ticket['available_2'];
+                          int available3 = ticket['available_3'] == ""
+                              ? 0
+                              : ticket['available_3'];
+                          List<int> total = [
+                            available1,
+                            available2,
+                            available3,
+                          ];
+                          int available = total.reduce((a, b) => a + b);
+                          return Column(
+                            children: [
+                              Container(
+                                height: 66,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: Colors.white,
+                                  border: Border.all(
+                                    color: const Color(0xffD5D8DE),
+                                  ),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 18),
+                                      child: Text(
+                                        ticket['event_name'],
+                                        style: const TextStyle(
+                                          fontSize: 19,
+                                        ),
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size.zero,
+                                        padding: EdgeInsets.zero,
+                                        surfaceTintColor: Colors.transparent,
+                                        elevation: 0,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (_) =>
+                                                    EventDetailInformationPage(
+                                                      id: ticket['id'],
+                                                      available: available,
+                                                      status: ticket['status'],
+                                                    )));
+                                      },
+                                      child: const Icon(
+                                        color: Colors.black,
+                                        Icons.arrow_forward_ios_rounded,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(
-                                height: 30,
+                                height: 12,
                               ),
-                              ..._tickets.map((ticket) {
-                                int available1 = ticket['available_1'];
-                                int available2 = ticket['available_2'] == ""
-                                    ? 0
-                                    : ticket['available_2'];
-                                int available3 = ticket['available_3'] == ""
-                                    ? 0
-                                    : ticket['available_3'];
-                                List<int> total = [
-                                  available1,
-                                  available2,
-                                  available3,
-                                ];
-                                int available = total.reduce((a, b) => a + b);
-                                return Column(
-                                  children: [
-                                    Container(
-                                      height: 66,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 20),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: Colors.white,
-                                        border: Border.all(
-                                          color: const Color(0xffD5D8DE),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 18),
-                                            child: Text(
-                                              ticket['event_name'],
-                                              style: const TextStyle(
-                                                fontSize: 19,
-                                              ),
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              minimumSize: Size.zero,
-                                              padding: EdgeInsets.zero,
-                                              surfaceTintColor:
-                                                  Colors.transparent,
-                                              elevation: 0,
-                                            ),
-                                            onPressed: () {
-                                              Navigator.of(context).push(
-                                                  MaterialPageRoute(
-                                                      builder: (_) =>
-                                                          EventDetailInformationPage(
-                                                            id: ticket['id'],
-                                                            available:
-                                                                available,
-                                                          )));
-                                            },
-                                            child: const Icon(
-                                              color: Colors.black,
-                                              Icons.arrow_forward_ios_rounded,
-                                              size: 18,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 12,
-                                    ),
-                                  ],
-                                );
-                              })
-                            ]),
+                            ],
+                          );
+                        })
+                      ]),
                 ],
               )),
         ],

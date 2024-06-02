@@ -97,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 18,
                       ),
                       TextFormField(
+                        obscureText: true,
                         decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderRadius:

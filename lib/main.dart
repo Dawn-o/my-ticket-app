@@ -1,3 +1,4 @@
+import 'package:bjbfest/pages/event_history_page.dart';
 import 'package:bjbfest/pages/starter_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bjbfest/pages/detail_ticket_page.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       home: const StarterPage(),
       routes: {
         '/main' : (context) => const MainLayout(),
-        'detail_ticket': (context) => const DetailTicketPage(),
+        'event_history': (context) => EventHistoryPage(),
       },
     );
   }

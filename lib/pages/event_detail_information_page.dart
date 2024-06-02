@@ -6,10 +6,15 @@ import 'package:bjbfest/pages/event_history_page.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailInformationPage extends StatelessWidget {
-  EventDetailInformationPage(
-      {super.key, required this.id, required this.available});
+  EventDetailInformationPage({
+    super.key,
+    required this.id,
+    required this.available,
+    required this.status,
+  });
   int id;
   final available;
+  final status;
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +25,18 @@ class EventDetailInformationPage extends StatelessWidget {
         'id': id,
         'status': "off",
       });
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (_) => EventHistoryPage()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => EventHistoryPage()));
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Event Archived')));
+    }
+
+    void _deleteEvent(int id) async {
+      await dbHelper.deleteTicket(id);
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => EventHistoryPage()));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Event Deleted')));
     }
 
     Dialog confirmDialog = Dialog(
@@ -165,6 +178,145 @@ class EventDetailInformationPage extends StatelessWidget {
         ),
       ),
     );
+    Dialog deleteDialog = Dialog(
+      alignment: Alignment.center,
+      child: Container(
+        height: 250,
+        width: 400,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 12),
+              child: Text(
+                "Delete Event",
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const Divider(
+              height: 1,
+              color: Color(0xffD5D8DE),
+              thickness: 1,
+              indent: 1,
+              endIndent: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 34),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(
+                        Icons.help_rounded,
+                        size: 60,
+                        color: Color(
+                          0xff1D4AA7,
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Column(
+                            children: [
+                              Text(
+                                "Are you sure want to delete?",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                textAlign: TextAlign.justify,
+                              ),
+                              Text(
+                                "Make sure your choice is correct!",
+                                style: TextStyle(
+                                    color: Color(
+                                      0xffA71D1D,
+                                    ),
+                                    fontSize: 16),
+                                textAlign: TextAlign.justify,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 12,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(11),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                color: const Color(0xFF1D4AA7),
+                              ),
+                            ),
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Color(0xFF1D4AA7),
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 18,
+                      ),
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                          ),
+                          onPressed: () {
+                            _archiveEvent(id);
+                            Navigator.of(context).pop(true);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF1D4AA7),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: const Text(
+                              "Yes, Delete!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -192,7 +344,7 @@ class EventDetailInformationPage extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "Event Tickets",
                       style: TextStyle(
                         fontSize: 21,
@@ -348,8 +500,13 @@ class EventDetailInformationPage extends StatelessWidget {
                         elevation: 0,
                       ),
                       onPressed: () {
-                        showDialog(
-                            context: context, builder: (_) => confirmDialog);
+                        if (status == "on") {
+                          showDialog(
+                              context: context, builder: (_) => confirmDialog);
+                        } else {
+                          showDialog(
+                              context: context, builder: (_) => deleteDialog);
+                        }
                       },
                       child: Container(
                         height: 55,
@@ -358,25 +515,27 @@ class EventDetailInformationPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: const Color(0xffE1E1E1)),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 14),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 14),
                           child: Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 33),
+                                padding: const EdgeInsets.only(left: 33),
                                 child: Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.power_settings_new_rounded,
                                       color: Color(0xffE71010),
                                       size: 26,
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 18,
                                     ),
                                     Text(
-                                      "Archive Event",
-                                      style: TextStyle(
+                                      status == "on"
+                                          ? "Archive Event"
+                                          : "Delete Event",
+                                      style: const TextStyle(
                                         color: Color(0xff525252),
                                         fontSize: 19,
                                       ),
