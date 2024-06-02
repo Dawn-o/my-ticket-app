@@ -2,7 +2,6 @@
 
 import 'package:bjbfest/forms.dart';
 import 'package:bjbfest/pages/db_helper.dart';
-import 'package:bjbfest/pages/event_history_page.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailInformationPage extends StatelessWidget {
