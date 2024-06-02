@@ -142,11 +142,16 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
                                 surfaceTintColor: Colors.transparent,
                                 elevation: 0,
                               ),
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => const StatusEventPage(
-                                          status: "on",
-                                        )));
+                              onPressed: () async {
+                                bool? shouldRefresh = await Navigator.of(
+                                        context)
+                                    .push(MaterialPageRoute(
+                                        builder: (_) => const StatusEventPage(
+                                              status: "on",
+                                            )));
+                                if (shouldRefresh == true) {
+                                  _refresh();
+                                }
                               },
                               child: const Icon(
                                 color: Colors.black,
@@ -239,14 +244,18 @@ class _EventHistoryPageState extends State<EventHistoryPage> {
                                 surfaceTintColor: Colors.transparent,
                                 elevation: 0,
                               ),
-                              onPressed: () {
-                                Navigator.of(context).push(
+                              onPressed: () async {
+                                bool? shouldRefresh =
+                                    await Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (_) => const StatusEventPage(
                                       status: "off",
                                     ),
                                   ),
                                 );
+                                if (shouldRefresh == true) {
+                                  _refresh();
+                                }
                               },
                               child: const Icon(
                                 color: Colors.black,

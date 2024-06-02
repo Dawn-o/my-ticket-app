@@ -30,7 +30,6 @@ class MyApp extends StatelessWidget {
       home: const StarterPage(),
       routes: {
         '/main' : (context) => const MainLayout(),
-        'event_history': (context) => EventHistoryPage(),
       },
     );
   }

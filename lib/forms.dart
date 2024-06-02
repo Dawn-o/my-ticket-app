@@ -136,7 +136,8 @@ class _FormsState extends State<Forms> {
       'photo': _photoController.text,
       'status': "on",
     });
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
 
     ScaffoldMessenger.of(context)
         .showSnackBar(const SnackBar(content: Text('Tickets Edited')));

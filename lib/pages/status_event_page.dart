@@ -114,15 +114,20 @@ class _StatusEventPageState extends State<StatusEventPage> {
                                         surfaceTintColor: Colors.transparent,
                                         elevation: 0,
                                       ),
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
+                                      onPressed: () async {
+                                        bool? shouldRefresh = await Navigator
+                                                .of(context)
+                                            .push(MaterialPageRoute(
                                                 builder: (_) =>
                                                     EventDetailInformationPage(
                                                       id: ticket['id'],
                                                       available: available,
                                                       status: ticket['status'],
                                                     )));
+
+                                        if (shouldRefresh == true) {
+                                          _refreshTicket();
+                                        }
                                       },
                                       child: const Icon(
                                         color: Colors.black,

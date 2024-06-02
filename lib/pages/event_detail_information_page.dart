@@ -25,16 +25,16 @@ class EventDetailInformationPage extends StatelessWidget {
         'id': id,
         'status': "off",
       });
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => EventHistoryPage()));
+      Navigator.of(context).pop(true);
+      Navigator.of(context).pop(true);
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Event Archived')));
     }
 
     void _deleteEvent(int id) async {
       await dbHelper.deleteTicket(id);
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => EventHistoryPage()));
+      Navigator.of(context).pop(true);
+      Navigator.of(context).pop(true);
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Event Deleted')));
     }
@@ -288,7 +288,7 @@ class EventDetailInformationPage extends StatelessWidget {
                             padding: EdgeInsets.zero,
                           ),
                           onPressed: () {
-                            _archiveEvent(id);
+                            _deleteEvent(id);
                             Navigator.of(context).pop(true);
                           },
                           child: Container(
