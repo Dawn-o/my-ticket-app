@@ -1,16 +1,19 @@
-# bjbfest
+# BJBFest - Cosplay Ticket Booking App
 
-A new Flutter project.
+Welcome to **BJBFest**, a mobile app designed for booking tickets to the ultimate cosplay event! Built using the **Flutter** framework, this app was developed as part of an 11th-grade final school project, focusing on a seamless and interactive user experience.
 
-## Getting Started
+## 🎉 Features
+- **📅 Event Info**: Access all the details about the BJBFest event, including schedules and guest appearances.
+- **🎟️ Easy Ticket Booking**: Choose your ticket type and book in just a few taps!
+- **📂 Manage Bookings**: Keep track of your ticket purchases and event details effortlessly.
+- **🚀 Fast & Responsive**: Optimized for both Android and iOS, ensuring a smooth experience.
 
-This project is a starting point for a Flutter application.
+## 🎯 Project Purpose
+BJBFest was created to demonstrate mobile app development skills, offering a user-friendly way to book tickets for an exciting cosplay event.
 
-A few resources to get you started if this is your first Flutter project:
+## 💻 Tech Stack
+- **Flutter**: Cross-platform development.
+- **Dart**: Programming language for Flutter.
+- **Firebase** *(optional)*: For backend services.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Experience the magic of BJBFest with an app designed to make ticket booking simple and fun!
