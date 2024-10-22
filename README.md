@@ -14,7 +14,10 @@ BJBFest was created to demonstrate mobile app development skills, offering a use
 ## 💻 Tech Stack
 - **Flutter**: Cross-platform development.
 - **Dart**: Programming language for Flutter.
-- **sqflite**: Local storage for managing event data and bookings (Firebase is not used in this project).
+- **sqflite**: Local storage for managing event data and bookings.
+
+## Why Not Firebase?
+Initially, the app was intended to use Firebase, especially to handle payment via photo proof of bank transfer. However, due to time constraints in learning Firebase, the scope was simplified to focus on ticket booking only, with data stored locally using **sqflite**.
 
 Experience the magic of BJBFest with an app designed to make ticket booking simple and fun!
 
